@@ -38,7 +38,7 @@ public class DisciplinaService {
 
         Disciplina disciplinaUpdated = disciplinaFromDb.get();
 
-        disciplinaUpdated.setNome(disciplina.getNome());
+        disciplinaUpdated.setName(disciplina.getName());
 
         disciplinaRepository.save(disciplinaUpdated);
     }

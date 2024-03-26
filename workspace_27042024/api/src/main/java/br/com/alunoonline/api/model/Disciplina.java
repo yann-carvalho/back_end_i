@@ -28,6 +28,4 @@ public class Disciplina implements Serializable {
     @ManyToOne
     @JoinColumn(name = "professor_id")
     private Professor professor;
-
-
 }
