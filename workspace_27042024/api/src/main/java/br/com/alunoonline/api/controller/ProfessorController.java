@@ -20,8 +20,8 @@ public class ProfessorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Professor professor) {professorService.create(professor);
-
+    public void create(@RequestBody Professor professor) {
+        professorService.create(professor);
     }
 
     @GetMapping("/all")
@@ -38,7 +38,7 @@ public class ProfessorController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Professor professor, @PathVariable Long id){
+    public void update(@RequestBody Professor professor, @PathVariable Long id) {
         professorService.update(id, professor);
     }
 

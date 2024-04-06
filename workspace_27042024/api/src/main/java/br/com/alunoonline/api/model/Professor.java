@@ -22,20 +22,4 @@ public class Professor implements Serializable {
     private Long id;
     private String name;
     private String email;
-
-    public void setName(String x) {
-        this.name = x;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setEmail(String x) {
-        this.email = x;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
 }
