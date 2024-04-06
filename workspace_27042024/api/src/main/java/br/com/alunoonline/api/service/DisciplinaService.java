@@ -20,7 +20,6 @@ public class DisciplinaService {
 
     public void create(Disciplina disciplina) {
         disciplinaRepository.save(disciplina);
-
     }
 
     public List<Disciplina> findAll() {
