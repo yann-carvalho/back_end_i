@@ -15,15 +15,8 @@ public class Disciplina implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
-
     private String name;
-
-
-    public void setName(String x) {this.name = x; }
-
-    public String getName() {return this.name; }
 
     @ManyToOne
     @JoinColumn(name = "professor_id")

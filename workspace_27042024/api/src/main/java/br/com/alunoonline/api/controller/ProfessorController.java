@@ -26,13 +26,13 @@ public class ProfessorController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<Professor> findAll(){
+    public List<Professor> findAll() {
         return professorService.findAll();
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Professor> findById(@PathVariable Long id){
+    public Optional<Professor> findById(@PathVariable Long id) {
         return professorService.findById(id);
     }
 
@@ -44,7 +44,7 @@ public class ProfessorController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable Long id){
+    public void deleteById(@PathVariable Long id) {
         professorService.deleteById(id);
     }
 

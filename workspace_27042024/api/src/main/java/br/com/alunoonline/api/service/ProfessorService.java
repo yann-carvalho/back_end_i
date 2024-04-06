@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 
 public class ProfessorService {
@@ -19,19 +20,19 @@ public class ProfessorService {
         professorRepository.save(professor);
     }
 
-    public List<Professor> findAll(){
+    public List<Professor> findAll() {
         return professorRepository.findAll();
     }
 
-    public Optional<Professor> findById(Long id){
+    public Optional<Professor> findById(Long id) {
         return professorRepository.findById(id);
     }
 
-    public void update(Long id, Professor professor){
-        Optional<Professor>professorFromDb = findById(id);
+    public void update(Long id, Professor professor) {
+        Optional<Professor> professorFromDb = findById(id);
 
-        if (professorFromDb.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Professor não encontrado no banco de dados.");
+        if (professorFromDb.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Professor não encontrado no banco de dados.");
         }
 
         Professor professorUpdated = professorFromDb.get();
@@ -42,7 +43,7 @@ public class ProfessorService {
         professorRepository.save(professorUpdated);
     }
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         professorRepository.deleteById(id);
     }
 }
