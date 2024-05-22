@@ -1,6 +1,6 @@
 package br.com.alunoonline.api.model;
 
-import br.com.alunoonline.api.enums.MatriculaAlunoStatusEnum;
+import br.com.alunoonline.api.enums.StudentEnrollmentStatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,23 +12,23 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Data
 @Entity
-public class MatriculaAluno implements Serializable {
+public class StudentEnrollment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Double nota1;
-    private Double nota2;
+    private Double grade1;
+    private Double grade2;
 
     @ManyToOne
-    @JoinColumn(name = "aluno_id")
-    private Aluno aluno;
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "disciplina_id")
-    private Disciplina disciplina;
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
 
     @Enumerated(EnumType.STRING)
-    private MatriculaAlunoStatusEnum status;
+    private StudentEnrollmentStatusEnum status;
 
 }
