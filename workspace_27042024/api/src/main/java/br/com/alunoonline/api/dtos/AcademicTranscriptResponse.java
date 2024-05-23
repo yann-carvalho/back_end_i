@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class StudentHistoryResponse {
+public class AcademicTranscriptResponse {
     private String studentName;
     private String studentEmail;
     private List<StudentSubjectsResponse> studentSubjectsResponseList;

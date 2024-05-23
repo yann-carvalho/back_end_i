@@ -1,6 +1,10 @@
 package br.com.alunoonline.api.service;
 
+import br.com.alunoonline.api.dtos.CreateStudentRequest;
+import br.com.alunoonline.api.model.Course;
 import br.com.alunoonline.api.model.Student;
+import br.com.alunoonline.api.repository.CourseRepository;
+import br.com.alunoonline.api.repository.StudentFinanceRepository;
 import br.com.alunoonline.api.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +20,28 @@ public class StudentService {
     @Autowired
     StudentRepository studentRepository;
 
-    public void create(Student student) {
-        studentRepository.save(student);
+    @Autowired
+    StudentFinanceRepository studentFinanceRepository;
+
+    @Autowired
+    CourseRepository courseRepository;
+
+    public void create(CreateStudentRequest createStudentRequest) {
+        Course course = courseRepository.findById(createStudentRequest.getCourseId())
+        .orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Curso não encontrado"));
+
+        Student savedStudent = studentRepository.save(
+                new Student(
+                        null,
+                        createStudentRequest.getName(),
+                        createStudentRequest.getEmail(),
+                        course
+                )
+        );
+    }
+
+    private void orElseThrow(Object cursoNãoEncontrado) {
     }
 
     public List<Student> findAll() {

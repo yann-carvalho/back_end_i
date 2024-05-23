@@ -1,5 +1,6 @@
 package br.com.alunoonline.api.controller;
 
+import br.com.alunoonline.api.dtos.CreateStudentRequest;
 import br.com.alunoonline.api.model.Student;
 import br.com.alunoonline.api.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class StudentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody Student student) {
-        studentService.create(student);
+    public void create(@RequestBody CreateStudentRequest createStudentRequest) {
+        studentService.create(createStudentRequest);
     }
 
     @GetMapping("/all")

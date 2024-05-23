@@ -2,7 +2,7 @@ package br.com.alunoonline.api.service;
 
 import br.com.alunoonline.api.dtos.UpdateGradesRequest;
 import br.com.alunoonline.api.dtos.StudentSubjectsResponse;
-import br.com.alunoonline.api.dtos.StudentHistoryResponse;
+import br.com.alunoonline.api.dtos.AcademicTranscriptResponse;
 import br.com.alunoonline.api.enums.StudentEnrollmentStatusEnum;
 import br.com.alunoonline.api.model.StudentEnrollment;
 import br.com.alunoonline.api.repository.StudentEnrollmentRepository;
@@ -27,8 +27,8 @@ public class StudentEnrollmentService {
         studentEnrollmentRepository.save(studentEnrollment);
     }
 
-    public void updateGrades(Long matriculaAlunoId, UpdateGradesRequest updateGradesRequest) {
-        StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(matriculaAlunoId)
+    public void updateGrades(Long studentEnrollmentId, UpdateGradesRequest updateGradesRequest) {
+        StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(studentEnrollmentId)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Matrícula não encontrada"));
 
@@ -49,18 +49,18 @@ public class StudentEnrollmentService {
     }
 
     public void updateStudentStatus(StudentEnrollment studentEnrollment) {
-        Double nota1 = studentEnrollment.getGrade1();
-        Double nota2 = studentEnrollment.getGrade2();
+        Double grade1 = studentEnrollment.getGrade1();
+        Double grade2 = studentEnrollment.getGrade2();
 
-        if (nota1 != null && nota2 != null) ;
+        if (grade1 != null && grade2 != null) ;
         {
-            double average = (nota1 + nota2) / 2.0;
+            double average = (grade1 + grade2) / 2.0;
             studentEnrollment.setStatus(average >= GRADE_AVG_TO_APPROVE ? StudentEnrollmentStatusEnum.APROVADO : StudentEnrollmentStatusEnum.REPROVADO);
         }
     }
 
-    public void updateStatusToBreak(Long matriculaAlunoId) {
-        StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(matriculaAlunoId)
+    public void updateStatusToBreak(Long studentEnrollmentId) {
+        StudentEnrollment studentEnrollment = studentEnrollmentRepository.findById(studentEnrollmentId)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Matrícula não encontrada"));
 
@@ -76,33 +76,33 @@ public class StudentEnrollmentService {
         studentEnrollmentRepository.save(studentEnrollment);
     }
 
-    public StudentHistoryResponse getHistoricoFromAluno(Long alunoId) {
-        List<StudentEnrollment> matriculasDoAluno = studentEnrollmentRepository.findByStudentId(alunoId);
+    public AcademicTranscriptResponse getAcademicTranscript(Long studentId) {
+        List<StudentEnrollment> studentEnrollments = studentEnrollmentRepository.findByStudentId(studentId);
 
-        if (matriculasDoAluno.isEmpty()) {
+        if (studentEnrollments.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Esse aluno não possui matrículas.");
         }
 
-        StudentHistoryResponse historico = new StudentHistoryResponse();
-        historico.setStudentName(matriculasDoAluno.get(0).getStudent().getName());
-        historico.setStudentEmail(matriculasDoAluno.get(0).getStudent().getEmail());
+        AcademicTranscriptResponse academicTranscript = new AcademicTranscriptResponse();
+        academicTranscript.setStudentName(studentEnrollments.get(0).getStudent().getName());
+        academicTranscript.setStudentEmail(studentEnrollments.get(0).getStudent().getEmail());
 
-        List<StudentSubjectsResponse> disciplinasList = new ArrayList<>();
+        List<StudentSubjectsResponse> subjectsList = new ArrayList<>();
 
-        for (StudentEnrollment matricula : matriculasDoAluno) {
+        for (StudentEnrollment subject : studentEnrollments) {
             StudentSubjectsResponse studentSubjectsResponse = new StudentSubjectsResponse();
-            studentSubjectsResponse.setSubjectName(matricula.getSubject().getName());
-            studentSubjectsResponse.setProfessorName(matricula.getSubject().getProfessor().getName());
-            studentSubjectsResponse.setGrade1(matricula.getGrade1());
-            studentSubjectsResponse.setGrade2(matricula.getGrade2());
+            studentSubjectsResponse.setSubjectName(subject.getSubject().getName());
+            studentSubjectsResponse.setProfessorName(subject.getSubject().getProfessor().getName());
+            studentSubjectsResponse.setGrade1(subject.getGrade1());
+            studentSubjectsResponse.setGrade2(subject.getGrade2());
             Double average = studentSubjectsResponse.calculateAverage();
             studentSubjectsResponse.setAverage(average);
-            studentSubjectsResponse.setStatus(matricula.getStatus());
-            disciplinasList.add(studentSubjectsResponse);
+            studentSubjectsResponse.setStatus(subject.getStatus());
+            subjectsList.add(studentSubjectsResponse);
         }
 
-        historico.setStudentSubjectsResponseList(disciplinasList);
+        academicTranscript.setStudentSubjectsResponseList(subjectsList);
 
-        return historico;
+        return academicTranscript;
     }
 }

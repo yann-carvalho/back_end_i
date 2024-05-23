@@ -1,5 +1,6 @@
 package br.com.alunoonline.api.controller;
 
+import br.com.alunoonline.api.dtos.AcademicTranscriptResponse;
 import br.com.alunoonline.api.dtos.UpdateGradesRequest;
 import br.com.alunoonline.api.model.StudentEnrollment;
 import br.com.alunoonline.api.service.StudentEnrollmentService;
@@ -30,5 +31,11 @@ public class StudentEnrollmentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateStatusToBreak(@PathVariable Long studentEnrollmentId) {
         studentEnrollmentService.updateStatusToBreak(studentEnrollmentId);
+    }
+
+    @GetMapping("/academic-transcript/{studentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public AcademicTranscriptResponse getAcademicTranscript(@PathVariable Long studentId){
+        return studentEnrollmentService.getAcademicTranscript(studentId);
     }
 }

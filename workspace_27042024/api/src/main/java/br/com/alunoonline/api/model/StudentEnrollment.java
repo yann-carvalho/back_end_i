@@ -17,6 +17,7 @@ public class StudentEnrollment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double grade1;
     private Double grade2;
 
